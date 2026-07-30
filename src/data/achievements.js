@@ -1,0 +1,22 @@
+export default [
+  { id: 'ach_first', name: '初来乍到', desc: '完成序章', tier: 'bronze', check: (s) => s.getFlag('ch1_unlocked') },
+  { id: 'ach_meet_all', name: '星光指引', desc: '结识所有主要角色', tier: 'silver', check: (s) => s.stats.relationshipsFormed >= 3 },
+  { id: 'ach_lyra_friend', name: 'Lyra之友', desc: 'Lyra好感≥45', tier: 'silver', check: (s, r) => r && r.getWarmth('lyra') >= 45 },
+  { id: 'ach_kai_friend', name: 'Kai之友', desc: 'Kai好感≥45', tier: 'silver', check: (s, r) => r && r.getWarmth('kai') >= 45 },
+  { id: 'ach_selene_friend', name: 'Selene之友', desc: 'Selene好感≥45', tier: 'silver', check: (s, r) => r && r.getWarmth('selene') >= 45 },
+  { id: 'ach_lyra_close', name: '星之羁绊', desc: 'Lyra好感≥85', tier: 'gold', check: (s, r) => r && r.getWarmth('lyra') >= 85 },
+  { id: 'ach_kai_close', name: '风之羁绊', desc: 'Kai好感≥85', tier: 'gold', check: (s, r) => r && r.getWarmth('kai') >= 85 },
+  { id: 'ach_selene_close', name: '月之羁绊', desc: 'Selene好感≥85', tier: 'gold', check: (s, r) => r && r.getWarmth('selene') >= 85 },
+  { id: 'ach_stone', name: '星辰石', desc: '发现星辰石', tier: 'silver', check: (s) => s.getFlag('found_stone') },
+  { id: 'ach_explore', name: '探索者', desc: '达成探索者结局', tier: 'gold', check: (s) => s.endings.includes('end_explorer') },
+  { id: 'ach_sacrifice', name: '献身之星', desc: '达成牺牲结局', tier: 'gold', check: (s) => s.endings.includes('end_sacrifice') },
+  { id: 'ach_collector', name: '收集者', desc: '获得5个成就', tier: 'silver', check: (s) => Object.keys(s.achievements).length >= 5 },
+  { id: 'ach_all_endings', name: '命运观测者', desc: '解锁全部结局', tier: 'star', check: (s) => s.endings.length >= 5 },
+  { id: 'ach_master', name: '星落大师', desc: '获得10个成就', tier: 'star', check: (s) => Object.keys(s.achievements).length >= 10 },
+  { id: 'ach_reader', name: '故事旅人', desc: '阅读100句对话', tier: 'bronze', check: (s) => s.stats.dialoguesRead >= 100 },
+  { id: 'ach_dialogues', name: '倾听者', desc: '阅读200句对话', tier: 'silver', check: (s) => s.stats.dialoguesRead >= 200 },
+  { id: 'ach_choices', name: '决策者', desc: '做出30次选择', tier: 'bronze', check: (s) => s.stats.choicesMade >= 30 },
+  { id: 'ach_memory', name: '回忆收藏家', desc: '收集5段回忆', tier: 'silver', check: (s) => s.memories.length >= 5 },
+  { id: 'ach_rich', name: '小富翁', desc: '累计赚到500星辉', tier: 'gold', check: (s, r, e) => e && e.currency >= 500 },
+  { id: 'ach_gift', name: '慷慨之心', desc: '送出5件礼物', tier: 'silver', check: () => false }
+];

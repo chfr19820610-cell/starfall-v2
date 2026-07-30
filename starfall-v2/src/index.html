@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>星落之夜 v2.0</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game-container">
+    <div id="scene-bg"></div>
+    <div id="hud-area"></div>
+    <div id="dialog-area">
+      <div style="text-align:center;padding:60px 20px;color:var(--text-secondary)">
+        <h1 style="color:var(--accent-gold);margin-bottom:16px">✦ 星落之夜 ✦</h1>
+        <p style="margin-bottom:24px">v2.0 — 星辰之约</p>
+        <button id="start-btn" style="
+          background:var(--accent-blue);color:#fff;border:none;
+          padding:12px 32px;border-radius:8px;font-size:16px;
+          cursor:pointer;transition:all 0.2s
+        ">开始游戏</button>
+        <p style="margin-top:12px;font-size:12px">或按任意键继续</p>
+      </div>
+    </div>
+    <div id="phone-area"></div>
+  </div>
+  <script type="importmap">
+  {
+    "imports": {
+      "./engine/calendar.js": "./engine/calendar.js",
+      "./engine/save.js": "./engine/save.js",
+      "./engine/state.js": "./engine/state.js",
+      "./engine/relationship.js": "./engine/relationship.js",
+      "./engine/dialogue.js": "./engine/dialogue.js",
+      "./lib/eventbus.js": "./lib/eventbus.js",
+      "./lib/idb.js": "./lib/idb.js",
+      "./systems/economy.js": "./systems/economy.js",
+      "./systems/achievements.js": "./systems/achievements.js",
+      "./ui/dialog.js": "./ui/dialog.js",
+      "./ui/hud.js": "./ui/hud.js",
+      "./ui/phone.js": "./ui/phone.js",
+      "./data/scenes.js": "./data/scenes.js",
+      "./data/achievements.js": "./data/achievements.js",
+      "./data/items.js": "./data/items.js",
+      "./data/constants.js": "./data/constants.js"
+    }
+  }
+  </script>
+  <script type="module">
+    import { Game } from './game.js';
+    document.getElementById('start-btn').addEventListener('click', start);
+    document.addEventListener('keydown', () => start(), { once: true });
+    let started = false;
+    async function start() {
+      if (started) return;
+      started = true;
+      const container = document.getElementById('game-container');
+      const game = new Game(container);
+      window.__game = game;
+      await game.init();
+    }
+  </script>
+</body>
+</html>

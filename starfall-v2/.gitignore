@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Icon?
+._*
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node
+node_modules/

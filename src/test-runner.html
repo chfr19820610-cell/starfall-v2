@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><title>Test Runner</title></head>
+<body>
+<pre id="output"></pre>
+<script type="importmap">
+{
+  "imports": {
+    "./engine/calendar.js": "./engine/calendar.js",
+    "./engine/save.js": "./engine/save.js",
+    "./engine/state.js": "./engine/state.js",
+    "./engine/relationship.js": "./engine/relationship.js",
+    "./engine/dialogue.js": "./engine/dialogue.js",
+    "./lib/eventbus.js": "./lib/eventbus.js",
+    "./lib/idb.js": "./lib/idb.js",
+    "./systems/economy.js": "./systems/economy.js",
+    "./systems/achievements.js": "./systems/achievements.js",
+    "./ui/dialog.js": "./ui/dialog.js",
+    "./ui/hud.js": "./ui/hud.js",
+    "./ui/phone.js": "./ui/phone.js",
+    "./data/scenes.js": "./data/scenes.js",
+    "./data/achievements.js": "./data/achievements.js",
+    "./data/items.js": "./data/items.js",
+    "./data/constants.js": "./data/constants.js"
+  }
+}
+</script>
+<script type="module">
+const out = document.getElementById('output');
+const origLog = console.log;
+console.log = (...args) => { out.textContent += args.join(' ') + '\n'; origLog(...args); };
+
+async function run() {
+  try {
+    await import('./tests/test_calendar.js');
+  } catch(e) { console.log('FAIL calendar: ' + e.message); }
+  try {
+    await import('./tests/test_relationship.js');
+  } catch(e) { console.log('FAIL relationship: ' + e.message); }
+  try {
+    await import('./tests/test_dialogue.js');
+  } catch(e) { console.log('FAIL dialogue: ' + e.message); }
+  try {
+    await import('./tests/test_economy.js');
+  } catch(e) { console.log('FAIL economy: ' + e.message); }
+  try {
+    // Verify scenes merged correctly
+    const scenes = await import('./data/scenes.js');
+    const count = Object.keys(scenes.default).length;
+    console.log(`\n=== Scene count: ${count} nodes ===`);
+    const endings = Object.keys(scenes.default).filter(k => k.startsWith('end_'));
+    console.log(`=== Ending nodes: ${endings.length} (${endings.filter(k => !k.includes('screen')).length} endings + end_screen) ===`);
+    if (count >= 60) console.log('PASS: 60+ node requirement met');
+    else console.log(`FAIL: Only ${count} nodes, need 60+`);
+  } catch(e) { console.log('FAIL scene check: ' + e.message); }
+}
+
+run();
+</script>
+</body>
+</html>
