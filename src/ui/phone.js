@@ -1,3 +1,8 @@
+/**
+ * 星落之夜 v2.0 — Phone UI
+ * 重设计：玻璃态底部 Dock + 弹出面板 + 动画
+ */
+
 export class PhoneUI {
   constructor(container, eventBus) {
     this.el = container;
@@ -6,7 +11,7 @@ export class PhoneUI {
 
   render() {
     this.el.innerHTML = `<div class="phone-frame">
-      <div class="phone-header">星落之夜</div>
+      <div class="phone-header">导 航</div>
       <div class="phone-apps">
         <div class="app-icon" data-app="story">📖 剧情</div>
         <div class="app-icon" data-app="rels">💕 关系</div>
@@ -28,7 +33,13 @@ export class PhoneUI {
 
   showPanel(appId, content) {
     const existing = this.el.querySelector('.phone-panel');
-    if (existing) existing.remove();
+    if (existing) {
+      existing.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+      existing.style.opacity = '0';
+      existing.style.transform = 'translateX(-50%) translateY(10px)';
+      setTimeout(() => existing.remove(), 200);
+    }
+
     const panel = document.createElement('div');
     panel.className = 'phone-panel';
     panel.innerHTML = `<div class="phone-panel-header">
@@ -36,7 +47,12 @@ export class PhoneUI {
       <span>${appId}</span>
     </div>
     <div class="phone-panel-body">${content}</div>`;
-    panel.querySelector('.panel-close').addEventListener('click', () => panel.remove());
+    panel.querySelector('.panel-close').addEventListener('click', () => {
+      panel.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+      panel.style.opacity = '0';
+      panel.style.transform = 'translateX(-50%) translateY(10px)';
+      setTimeout(() => panel.remove(), 200);
+    });
     this.el.appendChild(panel);
   }
 }

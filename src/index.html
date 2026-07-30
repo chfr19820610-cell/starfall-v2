@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>星落之夜 v2.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,15 +14,11 @@
     <div id="scene-bg"></div>
     <div id="hud-area"></div>
     <div id="dialog-area">
-      <div style="text-align:center;padding:60px 20px;color:var(--text-secondary)">
-        <h1 style="color:var(--accent-gold);margin-bottom:16px">✦ 星落之夜 ✦</h1>
-        <p style="margin-bottom:24px">v2.0 — 星辰之约</p>
-        <button id="start-btn" style="
-          background:var(--accent-blue);color:#fff;border:none;
-          padding:12px 32px;border-radius:8px;font-size:16px;
-          cursor:pointer;transition:all 0.2s
-        ">开始游戏</button>
-        <p style="margin-top:12px;font-size:12px">或按任意键继续</p>
+      <div class="startup-screen" id="startup-screen">
+        <div class="startup-title">✦ 星落之夜 ✦</div>
+        <div class="startup-subtitle">— 星辰之约 —</div>
+        <button class="startup-btn" id="start-btn">开始游戏</button>
+        <div class="startup-hint">或按任意键继续</div>
       </div>
     </div>
     <div id="phone-area"></div>
@@ -48,12 +47,26 @@
   </script>
   <script type="module">
     import { Game } from './game.js';
-    document.getElementById('start-btn').addEventListener('click', start);
+
+    const startBtn = document.getElementById('start-btn');
+    startBtn.addEventListener('click', start);
     document.addEventListener('keydown', () => start(), { once: true });
+
     let started = false;
     async function start() {
       if (started) return;
       started = true;
+
+      // Fade out startup screen
+      const screen = document.getElementById('startup-screen');
+      if (screen) {
+        screen.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        screen.style.opacity = '0';
+        screen.style.transform = 'scale(0.98)';
+        await new Promise(r => setTimeout(r, 400));
+        screen.remove();
+      }
+
       const container = document.getElementById('game-container');
       const game = new Game(container);
       window.__game = game;
