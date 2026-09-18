@@ -100,8 +100,13 @@ export class Game {
     this._checkAchievements();
     if (!nextId) return;
     if (this._isEnding(nextId)) {
-      const endingId = this._resolveEnding(nextId);
+      const dynamicEnding = this._checkDynamicEnding();
+      const endingId = dynamicEnding || this._resolveEnding(nextId);
       this.state.addEnding(endingId);
+      if (dynamicEnding) {
+        this._showNode(dynamicEnding);
+        return;
+      }
     }
     this.calendar.advancePeriod();
     if (this.state.memories.length === 0 && currentId.startsWith('ch') && nextId.startsWith('ch')) {
@@ -116,6 +121,25 @@ export class Game {
   _resolveEnding(id) {
     if (id.startsWith('end_') || id.startsWith('epilogue_')) return id;
     return id;
+  }
+
+  _checkDynamicEnding() {
+    const chars = ['lyra', 'kai', 'selene'];
+    const warmth = chars.map(c => this.rel.getWarmth(c));
+
+    if (this.state.getFlag('found_stone') && warmth.some(w => w >= 65)) {
+      return 'end_stone';
+    }
+
+    if (warmth.every(w => w >= 40) && warmth.every(w => w < 85)) {
+      return 'end_friendship';
+    }
+
+    if (warmth.every(w => w < 20)) {
+      return 'end_solitude';
+    }
+
+    return null;
   }
 
   _setScene(scene) {

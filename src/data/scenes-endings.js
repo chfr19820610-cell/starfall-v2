@@ -104,6 +104,50 @@ export default {
     choices: [{ text: '返回标题画面', next: 'end_screen' }]
   },
 
+  end_friendship: {
+    id: 'end_friendship',
+    speaker: 'narrator',
+    text: '你没有选择任何一颗星，而是选择了所有人。\nLyra、Kai、Selene——你们之间的纽带\n不是爱情，而是比星辰更坚固的友谊。\n\n——结局：星之友谊 ✦',
+    scene: 'stargaze',
+    choices: [
+      { text: '尾声：星空下的约定', next: 'epilogue_friendship' },
+      { text: '返回标题画面', next: 'end_screen' }
+    ]
+  },
+  epilogue_friendship: {
+    id: 'epilogue_friendship',
+    speaker: 'narrator',
+    text: '星落之夜过后，你们三人常常一起在山顶观星。\n没有谁独占谁的光芒——\n每一颗星，都照亮着彼此。',
+    scene: 'stargaze',
+    choices: [{ text: '返回标题画面', next: 'end_screen' }]
+  },
+
+  end_solitude: {
+    id: 'end_solitude',
+    speaker: 'narrator',
+    text: '你独自走向星空深处。\n没有人陪伴，也没有人挽留。\n但星辰记得你的名字——\n那个在星落之夜独自前行的人。\n\n——结局：孤星 ✦',
+    scene: 'void',
+    choices: [{ text: '返回标题画面', next: 'end_screen' }]
+  },
+
+  end_stone: {
+    id: 'end_stone',
+    speaker: 'narrator',
+    text: '你手中的星辰石发出耀眼的光芒。\n它选择的不是一个人，而是一段关系——\n那段在星落之夜中诞生的、最深刻的羁绊。\n\n——结局：星辰之约 ✦',
+    scene: 'stargaze',
+    choices: [
+      { text: '尾声：封印星辰石', next: 'epilogue_stone' },
+      { text: '返回标题画面', next: 'end_screen' }
+    ]
+  },
+  epilogue_stone: {
+    id: 'epilogue_stone',
+    speaker: 'narrator',
+    text: '星辰石重新沉入古树之下。\n但这一次，它的光芒不再属于一个人——\n而是属于你们共同的记忆。',
+    scene: 'tree',
+    choices: [{ text: '返回标题画面', next: 'end_screen' }]
+  },
+
   free_start: {
     id: 'free_start',
     speaker: 'narrator',
