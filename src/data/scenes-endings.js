@@ -25,6 +25,53 @@ export default {
     scene: 'void',
     effects: { respect_selene: 5 },
     next: null,
+    variants: [
+      {
+        // end_solitude: 无角色羁绊≥20 → 独自离开
+        conditions: { affection_lyra: { max: 19 }, affection_kai: { max: 19 }, affection_selene: { max: 19 } },
+        choices: [{ text: '……我谁也没有走向', next: 'end_solitude' }]
+      },
+      {
+        // end_stone: flag_found_stone 且任一角色羁绊≥65 → 星辰石结局
+        conditions: { flags: ['found_stone'], affection_lyra: { min: 65 } },
+        choices: [
+          { text: '握紧手中的星辰石', next: 'end_stone' },
+          { text: '走向Lyra的星光', effects: { affection_lyra: 10 }, next: 'end_lyra' },
+          { text: '走向Kai的星光', effects: { affection_kai: 10 }, next: 'end_kai' },
+          { text: '走向Selene的星光', effects: { affection_selene: 10 }, next: 'end_selene' }
+        ]
+      },
+      {
+        // end_stone: Kai线
+        conditions: { flags: ['found_stone'], affection_kai: { min: 65 } },
+        choices: [
+          { text: '握紧手中的星辰石', next: 'end_stone' },
+          { text: '走向Lyra的星光', effects: { affection_lyra: 10 }, next: 'end_lyra' },
+          { text: '走向Kai的星光', effects: { affection_kai: 10 }, next: 'end_kai' },
+          { text: '走向Selene的星光', effects: { affection_selene: 10 }, next: 'end_selene' }
+        ]
+      },
+      {
+        // end_stone: Selene线
+        conditions: { flags: ['found_stone'], affection_selene: { min: 65 } },
+        choices: [
+          { text: '握紧手中的星辰石', next: 'end_stone' },
+          { text: '走向Lyra的星光', effects: { affection_lyra: 10 }, next: 'end_lyra' },
+          { text: '走向Kai的星光', effects: { affection_kai: 10 }, next: 'end_kai' },
+          { text: '走向Selene的星光', effects: { affection_selene: 10 }, next: 'end_selene' }
+        ]
+      },
+      {
+        // end_friendship: 所有角色羁绊≥40 且无人≥85 → 友情结局
+        conditions: { affection_lyra: { min: 40, max: 84 }, affection_kai: { min: 40, max: 84 }, affection_selene: { min: 40, max: 84 } },
+        choices: [
+          { text: '伸出手，握住所有人的手', next: 'end_friendship' },
+          { text: '走向Lyra的星光', effects: { affection_lyra: 10 }, next: 'end_lyra' },
+          { text: '走向Kai的星光', effects: { affection_kai: 10 }, next: 'end_kai' },
+          { text: '走向Selene的星光', effects: { affection_selene: 10 }, next: 'end_selene' }
+        ]
+      }
+    ],
     choices: [
       { text: '走向Lyra的星光', effects: { affection_lyra: 10 }, next: 'end_lyra' },
       { text: '走向Kai的星光', effects: { affection_kai: 10 }, next: 'end_kai' },
@@ -93,6 +140,50 @@ export default {
     speaker: 'narrator',
     text: '你用自己的光芒填补了星辰间的裂缝。\n星落之夜永远结束了——\n但你的名字，化作了一颗新的星星。\n\n——结局：永恒之星 ✦',
     scene: 'stargaze',
+    choices: [{ text: '返回标题画面', next: 'end_screen' }]
+  },
+
+  end_friendship: {
+    id: 'end_friendship',
+    speaker: 'narrator',
+    text: '你没有选择任何一颗星，而是选择了所有人。\nLyra、Kai、Selene——你们之间的纽带\n不是爱情，而是比星辰更坚固的友谊。\n\n——结局：星之友谊 ✦',
+    scene: 'stargaze',
+    choices: [
+      { text: '尾声：星空下的约定', next: 'epilogue_friendship' },
+      { text: '返回标题画面', next: 'end_screen' }
+    ]
+  },
+  epilogue_friendship: {
+    id: 'epilogue_friendship',
+    speaker: 'narrator',
+    text: '星落之夜过后，你们三人常常一起在山顶观星。\n没有谁独占谁的光芒——\n每一颗星，都照亮着彼此。',
+    scene: 'stargaze',
+    choices: [{ text: '返回标题画面', next: 'end_screen' }]
+  },
+
+  end_solitude: {
+    id: 'end_solitude',
+    speaker: 'narrator',
+    text: '你独自走向星空深处。\n没有人陪伴，也没有人挽留。\n但星辰记得你的名字——\n那个在星落之夜独自前行的人。\n\n——结局：孤星 ✦',
+    scene: 'void',
+    choices: [{ text: '返回标题画面', next: 'end_screen' }]
+  },
+
+  end_stone: {
+    id: 'end_stone',
+    speaker: 'narrator',
+    text: '你握紧手中的星辰石，它在你掌心发出温热的光。\n星辰石低语着远古的秘密——\n关于星落，关于约定，关于那些被遗忘的名字。\n你选择成为新的守护者，将这份光芒传承下去。\n\n——结局：星辰石守护者 ✦',
+    scene: 'stargaze',
+    choices: [
+      { text: '尾声：封印传承', next: 'epilogue_stone' },
+      { text: '返回标题画面', next: 'end_screen' }
+    ]
+  },
+  epilogue_stone: {
+    id: 'epilogue_stone',
+    speaker: 'narrator',
+    text: '你将星辰石重新嵌入古树之中。\n光芒缓缓扩散，覆盖了整个星落村。\n从今以后，你就是这里的守护者——\n直到下一颗星辰坠落。',
+    scene: 'tree',
     choices: [{ text: '返回标题画面', next: 'end_screen' }]
   },
 
